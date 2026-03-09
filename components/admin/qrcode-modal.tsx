@@ -14,6 +14,12 @@ import { toast } from 'sonner'
 import type { License } from '@/lib/types'
 import { licensesClient } from '@/lib/clients/licenses'
 
+const RFLEX_PREFIX = /^rflex:/i
+
+function getNormalizedLicenseCode(code: string) {
+  return code.replace(RFLEX_PREFIX, '').trim()
+}
+
 interface QRCodeModalProps {
   license: License | null
   open: boolean
@@ -49,8 +55,10 @@ export function QRCodeModal({ license, open, onOpenChange }: QRCodeModalProps) {
 
   if (!license) return null
 
+  const normalizedCode = getNormalizedLicenseCode(license.code)
+
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(license.code)
+    await navigator.clipboard.writeText(normalizedCode)
     setCopied(true)
     toast.success('Código copiado!')
     setTimeout(() => setCopied(false), 2000)
@@ -62,7 +70,7 @@ export function QRCodeModal({ license, open, onOpenChange }: QRCodeModalProps) {
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = `license_${license.code}.pdf`
+      link.download = `license_${normalizedCode}.pdf`
       document.body.appendChild(link)
       link.click()
       link.remove()
@@ -101,7 +109,7 @@ export function QRCodeModal({ license, open, onOpenChange }: QRCodeModalProps) {
             <p className="text-xs text-muted-foreground text-center mb-2">Código da Licença</p>
             <div className="flex items-center gap-2">
               <code className="flex-1 p-3 bg-muted rounded-lg text-xs font-mono text-center break-all">
-                {license.code}
+                {normalizedCode}
               </code>
               <Button variant="outline" size="icon" onClick={handleCopy}>
                 {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
