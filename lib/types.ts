@@ -241,9 +241,43 @@ export interface ApiErrorResponse {
 }
 
 
+export interface RFlexApkItem {
+  version: string
+  url: string
+  notes?: string
+  filename: string
+  size_bytes: number
+  uploaded_at: string
+  is_latest: boolean
+}
+
+export interface RFlexApkListResponse {
+  total: number
+  items: RFlexApkItem[]
+}
+
+export type RFlexApkUploadStatus = 'pending' | 'receiving' | 'completed' | 'failed'
+
+export interface RFlexApkUploadProgress {
+  upload_id: string
+  status: RFlexApkUploadStatus
+  bytes_received: number
+  total_bytes: number | null
+  percent: number | null
+  version: string | null
+  filename: string | null
+  stored_filename: string | null
+  error: string | null
+  created_at: string
+  updated_at: string
+}
+
 export interface RFlexApkUploadResponse {
   version: string
   url: string
-  filename: string
   notes?: string
+  filename: string
+  size_bytes: number
+  uploaded_at: string
+  upload_id?: string
 }
