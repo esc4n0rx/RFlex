@@ -239,3 +239,11 @@ export interface PublicLicenseInfo {
 export interface ApiErrorResponse {
   detail?: string
 }
+
+
+export interface RFlexApkUploadResponse {
+  version: string
+  url: string
+  filename: string
+  notes?: string
+}

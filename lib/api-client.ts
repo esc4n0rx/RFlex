@@ -69,6 +69,34 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
   return response.json() as Promise<T>
 }
 
+export async function apiRequestFormData<T>(
+  path: string,
+  options: Omit<RequestOptions, 'body'> & { body: FormData }
+): Promise<T> {
+  const { method = 'POST', body, query, headers, auth = true } = options
+  const token = auth ? getItem<string>(STORAGE_KEYS.AUTH_TOKEN) : null
+
+  const response = await fetch(buildUrl(path, query), {
+    method,
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...headers
+    },
+    body
+  })
+
+  if (!response.ok) {
+    const message = await parseError(response)
+    throw new Error(message)
+  }
+
+  if (response.status === 204) {
+    return null as T
+  }
+
+  return response.json() as Promise<T>
+}
+
 export async function apiRequestBlob(
   path: string,
   options: RequestOptions = {}
