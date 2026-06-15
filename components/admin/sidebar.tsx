@@ -9,6 +9,7 @@ import {
   CreditCard, 
   KeyRound, 
   Smartphone,
+  Download,
   Radio
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -19,6 +20,7 @@ const navigation = [
   { name: 'Planos', href: '/planos', icon: CreditCard },
   { name: 'Licenças', href: '/licencas', icon: KeyRound },
   { name: 'Dispositivos', href: '/dispositivos', icon: Smartphone },
+  { name: 'Downloads', href: '/downloads', icon: Download },
 ]
 
 export function AdminSidebar() {

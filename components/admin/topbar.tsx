@@ -22,6 +22,7 @@ const pageTitles: Record<string, string> = {
   '/planos': 'Planos',
   '/licencas': 'Licenças',
   '/dispositivos': 'Dispositivos',
+  '/downloads': 'Downloads',
 }
 
 interface TopbarProps {
